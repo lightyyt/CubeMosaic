@@ -195,15 +195,15 @@ async function generatePDF() {
     showToast("Generating Full Mosaic...");
 
     const full = await html2canvas(document.getElementById("mosaic"), { scale: 1, useCORS: true });
-
-    const fpdfWidth = pageWidth;
-    const fpdfHeight = (full.height * fpdfWidth) / full.width;
-
-    pdf.addImage(full, "PNG", 50, 50, fpdfWidth-100, fpdfHeight-100);
     // Hide Text After Full Image, as mini images don't need it
     cubes.forEach(cube => {
        cube.cube.querySelector("span").hidden = true;
     });
+    const fpdfWidth = pageWidth;
+    const fpdfHeight = (full.height * fpdfWidth) / full.width;
+
+    pdf.addImage(full, "PNG", 50, 50, fpdfWidth-100, fpdfHeight-100);
+
     let i = 0;
     for (const cube of valid_cubes) {
         i++;
