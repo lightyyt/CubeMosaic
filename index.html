@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="index.js"></script>
+        <title>CubeMosaic by Lighty</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+
+    <body onload="create_mosaic(11);">
+        <div class="ui">
+            <h1>CubeMosaic</h1>
+            <div class="bg">
+                <button onclick="change('red')", class="tile red" id="sel">1</button>
+                <button onclick="change('green')", class="tile green" id="sel">2</button>
+                <button onclick="change('blue')", class="tile blue" id="sel">3</button>
+                <button onclick="change('orange')", class="tile orange" id="sel">4</button>
+                <button onclick="change('yellow')", class="tile yellow" id="sel">5</button>
+                <button onclick="change('white')", class="tile white" id="sel">6</button>
+                <button onclick="generatePDF()" id="generate">PDF</button>
+            </div>
+        </div>
+
+        <main id="mosaic">
+        </main>
+        <div id="toast"></div>
+    </body>
+</html>
