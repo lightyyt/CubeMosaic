@@ -1,6 +1,6 @@
 let cubes = [];
 
-let color = "";
+let color = "white";
 
 let toastTO=-1;
 
@@ -49,6 +49,8 @@ function tile_click(tile) {
 }
 
 function create_mosaic(size) {
+    document.getElementById("mosaic").innerHTML="";
+    cubes = [];
     let i = 0;
     for(let y = 0; y < size; y++){
         for(let x = 0; x < size; x++){
