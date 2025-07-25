@@ -199,6 +199,8 @@ async function generatePDF() {
     cubes.forEach(cube => {
        cube.cube.querySelector("span").hidden = true;
     });
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    // Wait for one frame so they actually hide
     const fpdfWidth = pageWidth;
     const fpdfHeight = (full.height * fpdfWidth) / full.width;
 
