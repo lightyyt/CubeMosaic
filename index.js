@@ -43,7 +43,7 @@ function tile_right(tile, event) {
 }
 
 function tile_click(tile) {
-    console.log(tile);
+    //console.log(tile);
     tile.classList = "";
     tile.className = "tile "+color;
 }
@@ -222,4 +222,47 @@ async function generatePDF() {
 pdf.save("output.pdf");
 
 setTimeout(()=>{document.getElementById("generate").innerHTML = "PDF";}, 2000);
+}
+
+let mouseDown = false;
+let touchDown = false;
+const activated = new Set();
+
+// Track mouse state
+document.addEventListener("mousedown", () => { mouseDown = true; activated.clear(); });
+document.addEventListener("mouseup", () => { mouseDown = false; });
+
+// Mouse swipe
+document.addEventListener("mousemove", (ev) => {
+    if (!mouseDown) return;
+    const el = document.elementFromPoint(ev.clientX, ev.clientY);
+    triggerSwipeClick(el);
+}, { passive: true });
+
+// Touch state
+document.addEventListener("touchstart", () => { touchDown = true; activated.clear(); });
+document.addEventListener("touchend", () => { touchDown = false; });
+
+// Touch swipe
+document.addEventListener("touchmove", (ev) => {
+    if (!touchDown || ev.touches.length === 0) return;
+    const touch = ev.touches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    triggerSwipeClick(el);
+}, { passive: true });
+
+// Click triggering with deduplication
+function triggerSwipeClick(el) {
+    if (!el || activated.has(el)) return;
+    activated.add(el);
+
+    // Simulate click
+    const clickEvent = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        button: 0
+    });
+    el.dispatchEvent(clickEvent);
+
+    showToast(el); // Your custom function
 }
