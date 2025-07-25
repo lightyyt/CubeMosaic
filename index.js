@@ -87,9 +87,14 @@ function create_cube(id = "cube-1"){
         tiles.push(tile);
         cube.appendChild(tile);
     }
-
+    let info = document.createElement("span");
+    info.className = "info";
+    info.innerHTML="WW";
+    info.hidden=true;
+    info.id = "info";
+    cube.appendChild(info);
+    
     cubes.push({"cube":cube, "tiles":tiles});
-
     document.getElementById("mosaic").appendChild(cube);
 }
 
@@ -153,7 +158,9 @@ async function generatePDF() {
     const vals = [];
     const valid_cubes = [];
 
+    let nameid = 1;
     cubes.forEach(cube => {
+        cube.cube.querySelector("span").hidden=false;
         //Cube to String
         var str = "";
         cube.tiles.forEach(tile => {
@@ -161,17 +168,23 @@ async function generatePDF() {
         });
         console.log(str);
         let idx = vals.indexOf(str);
+        
         if(idx == -1) { // If not exists, add
             vals.push(str);
+            let name = getNameForNumber(nameid);
             valid_cubes.push(
                 {
                     "cube":cube.cube,
                     "tiles":cube.tile,
-                    "count": 1
+                    "count": 1,
+                    "name": name
                 }
             );
+            cube.cube.querySelector("span").innerHTML = name;
+            nameid++;
         } else { // Increase count otherwise
             valid_cubes[idx].count++;
+            cube.cube.querySelector("span").innerHTML = valid_cubes[idx].name;
         }
     });
     console.log(valid_cubes);
@@ -204,7 +217,7 @@ async function generatePDF() {
         pdf.addImage(imgData, "PNG", 50, 50, pdfWidth-100, pdfHeight-100);
 
         // Put the text *below* the image (image bottom + padding)
-        const text = "(#"+getNameForNumber(i)+")  : " + cube.count+"x";
+        const text = ""+cube.name+"  : " + cube.count+"x";
         const fontSize = 40;
         pdf.setFontSize(fontSize);
         const textWidth = pdf.getTextWidth(text);
@@ -220,6 +233,11 @@ async function generatePDF() {
     }
 
 pdf.save("output.pdf");
+
+// Hide Text After PDF save
+cubes.forEach(cube => {
+   cube.cube.querySelector("span").hidden = true;
+});
 
 setTimeout(()=>{document.getElementById("generate").innerHTML = "PDF";}, 2000);
 }
@@ -264,5 +282,5 @@ function triggerSwipeClick(el) {
     });
     el.dispatchEvent(clickEvent);
 
-    showToast(el); // Your custom function
+    //showToast(el);
 }

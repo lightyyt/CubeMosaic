@@ -22,6 +22,16 @@ html, body {
     border-radius:6px;
 }
 
+.info {
+  position: absolute;
+  width:171px;
+  height:171px;
+  line-height:171px;
+  font-size:130px;
+  text-align:center;
+  color: #0006;
+  font-weight: bolder;
+}
 
 .cube {
     display: flex;
