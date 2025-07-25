@@ -61,6 +61,17 @@ function create_mosaic(size) {
     document.getElementById("mosaic").style.width = size*181+"px";
 }
 
+function mosaicsel(){ 
+    let prp = prompt("Enter Mosaic Size:", "10");
+    let num = parseInt(prp);
+    if(prp == null || prp == "") return;
+    else if(isNaN(num))
+        alert("Invalid Number!")
+    else
+        create_mosaic(num);
+    
+}
+
 function create_cube(id = "cube-1"){
     let cube = document.createElement("span");
     cube.classList.add("cube");
